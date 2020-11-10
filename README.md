@@ -1,4 +1,4 @@
-LL(1) Solver
+# LL(1) Solver
 
 This program accepts a context-free grammar from standard input and
 generates/outputs an LL(1) parse table. For example:
