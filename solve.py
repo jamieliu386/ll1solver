@@ -37,7 +37,9 @@ class Grammar:
 
         result += "first map:\n"
         for nt in self.nts:
-            result += f"{TAB}{nt} -> {sorted(list(self.first[nt]))}\n"
+            remove_epsilon = deepcopy(self.first[nt])
+            remove_epsilon.discard(EPSILON)
+            result += f"{TAB}{nt} -> {sorted(list(remove_epsilon))}\n"
 
         result += "follow map:\n"
         for nt in self.nts:
