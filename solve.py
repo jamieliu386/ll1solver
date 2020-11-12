@@ -7,7 +7,7 @@ EPSILON = "ε"
 
 
 def is_t(sym: str) -> bool:
-    return sym.islower()
+    return sym.islower() and sym != EPSILON
 
 
 def is_nt(sym: str) -> bool:
@@ -140,6 +140,8 @@ class Grammar:
         for nt in self.nts:
             for d in depends[nt]:
                 first_set[nt] |= first_set[d]
+                if not self.nullable[nt]:
+                    first_set[nt].discard(EPSILON)
         return first_set
 
     def fixed_point_first_set(self) -> None:
@@ -151,9 +153,13 @@ class Grammar:
 
     def prod_first_set(self, prod: str) -> Set[str]:
         first_set = set()
+        if prod == EPSILON:
+            first_set.add(EPSILON)
+            return first_set
         for symbol in prod:
             if is_t(symbol):
                 first_set.add(symbol)
+                first_set.discard(EPSILON)
                 break
             if is_nt(symbol):
                 first_set |= self.first[symbol]
