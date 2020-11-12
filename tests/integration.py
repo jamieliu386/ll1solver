@@ -54,7 +54,7 @@ def test(test_grammar):
         )
         
         # check first set
-        assert set(g.first[nt]) == set(test_grammar.first_sets[nt]), (
+        assert set(g.get_nt_first_set(nt)) == set(test_grammar.first_sets[nt]), (
             f"different first set for {nt}"
         )
         
