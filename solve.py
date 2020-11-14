@@ -68,6 +68,13 @@ class Grammar:
         self.fixed_point_follow_set()
         self.compute_ll1_table()
         print(self)
+    
+    def get_nt_first_set(self, nt: str) -> Set[str]:
+        if nt not in self.nts:
+            return set()
+        first_set = deepcopy(self.first[nt])
+        first_set.discard(EPSILON)
+        return first_set
 
     def add_nt(self, nt: str) -> None:
         self.nts.append(nt)

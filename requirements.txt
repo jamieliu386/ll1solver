@@ -1,0 +1,2 @@
+pytest==6.1.2
+prettytable==1.0.1
