@@ -1,6 +1,5 @@
 import pytest
 from typing import NamedTuple, List, Dict
-# from solve import parse_grammar
 from ..solve import parse_grammar
 
 class TestGrammar(NamedTuple):
@@ -31,7 +30,134 @@ test_grammars = [
             C='wxyz$'
         ),
         is_ll1=False
-    )
+    ),
+    TestGrammar(
+        grammar='''
+        A :== wB | BAwx
+        B :== ywB
+        ''',
+        null_set='',
+        first_sets=dict(
+            A='wy', 
+            B='y',
+        ),
+        follow_sets=dict(
+            A='w$',
+            B='wy$',
+        ),
+        is_ll1=True
+    ),
+    TestGrammar(
+        grammar='''
+        A :== xx | BA
+        B :== zyAx | wBx
+        ''',
+        null_set='',
+        first_sets=dict(
+            A='wxz', 
+            B='wz',
+        ),
+        follow_sets=dict(
+            A='x$',
+            B='wxz',
+        ),
+        is_ll1=True
+    ),
+    TestGrammar(
+        grammar='''
+        A :== xxx | yC
+        B :== yB | ε | Aww
+        C :== ByBw | BAxB
+        ''',
+        null_set='B',
+        first_sets=dict(
+            A='xy', 
+            B='xy',
+            C='xy'
+        ),
+        follow_sets=dict(
+            A='wx$',
+            B='wxy$',
+            C='wx$'
+        ),
+        is_ll1=False
+    ),
+    TestGrammar(
+        grammar='''
+        A :== yCz
+        B :== ε | zyA
+        C :== yBCC | ε | wz
+        ''',
+        null_set='BC',
+        first_sets=dict(
+            A='y', 
+            B='z',
+            C='wy'
+        ),
+        follow_sets=dict(
+            A='wyz$',
+            B='wyz',
+            C='wyz'
+        ),
+        is_ll1=False
+    ),
+    TestGrammar(
+        grammar='''
+        A :== C
+        B :== ε | w | yCxz
+        C :== wA | w | ByyA
+        ''',
+        null_set='B',
+        first_sets=dict(
+            A='wy', 
+            B='wy',
+            C='wy'
+        ),
+        follow_sets=dict(
+            A='x$',
+            B='y',
+            C='x$'
+        ),
+        is_ll1=False
+    ),
+    TestGrammar(
+        grammar='''
+        A :== BBy | ε | BwC
+        B :== C | yxCx | yBw
+        C :== zCxw
+        ''',
+        null_set='A',
+        first_sets=dict(
+            A='yz', 
+            B='yz',
+            C='z'
+        ),
+        follow_sets=dict(
+            A='$',
+            B='wyz',
+            C='wxyz$'
+        ),
+        is_ll1=False
+    ),
+    TestGrammar(
+        grammar='''
+        A :== wBw | x | yxz
+        B :== ε | CxwA | wA
+        C :== yzzw
+        ''',
+        null_set='B',
+        first_sets=dict(
+            A='wxy', 
+            B='wy',
+            C='y'
+        ),
+        follow_sets=dict(
+            A='w$',
+            B='w',
+            C='x'
+        ),
+        is_ll1=False
+    ),
 ]
 
 @pytest.mark.parametrize('test_grammar', test_grammars)
